@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import "./App.css";
 
@@ -14,12 +14,14 @@ function App() {
     if (numAllowed) str += "0123456789";
     if (charAllowed) str += "@#$!&";
 
-    for (i = 1; i <= length; i++) {
+    for (let i = 1; i <= length; i++) {
       let char = Math.floor(Math.random() * str.length + 1);
       pass += str.charAt(char);
     }
     setPassword(pass);
   }, [length, numAllowed, charAllowed, setPassword]);
+
+  useEffect (()=> {passwordGenerator()}, [length, numAllowed, charAllowed, passwordGenerator])
 
   return (
     <>
@@ -39,9 +41,9 @@ function App() {
           <div className="flex item-center gap-x-1">
             <input type="range" min={8} max={24} value={length} className="cursor-pointer" onChange={(e) => {setLength(e.target.value)}} />
             <label htmlFor="">Length:{length}</label>
-            <input type="checkbox" name="" id="" defaultChecked={numAllowed} onChange={setNumAllowed((prev) => !prev)}/>
+            <input type="checkbox" name="" id="" defaultChecked={numAllowed} onChange={() => setNumAllowed((prev) => !prev)}/>
             <label htmlFor="">Number</label>
-            <input type="checkbox" name="" id="" defaultChecked={charAllowed} onChange={setCharAllowed((prev) => !prev)}/>
+            <input type="checkbox" name="" id="" defaultChecked={charAllowed} onChange={() => setCharAllowed((prev) => !prev)}/>
             <label htmlFor="">Character</label>
           </div>
         </div>
